@@ -272,13 +272,7 @@ namespace ALMUpdate
                 DateTime endDate = dtpEndDate.Value;
                 string testFolder = tbReleaseFolder.Text.Trim();
 
-                if (xmlOpertations != null && !string.IsNullOrEmpty(releaseName) && !string.IsNullOrEmpty(cycleName))
-                {
-                    xmlOpertations.AddToAutoCompleteSource("ReleaseNames", releaseName);
-                    xmlOpertations.AddToAutoCompleteSource("CycleNames", cycleName);
-                    btnCreateReleseCycle.Enabled = true;
-                    return;
-                }
+                
 
                 if (endDate.Date<startDate.Date)
                 {
@@ -292,7 +286,11 @@ namespace ALMUpdate
                 string message = CreateReleaseCycle(intakeid, releaseName, cycleName, startDate, endDate, testFolder, rbDOCSIS.Checked);
                 lblReleaseError.Text = message;
 
-                
+                if (xmlOpertations != null && !string.IsNullOrEmpty(releaseName) && !string.IsNullOrEmpty(cycleName))
+                {
+                    xmlOpertations.AddToAutoCompleteSource("ReleaseNames", releaseName);
+                    xmlOpertations.AddToAutoCompleteSource("CycleNames", cycleName);
+                }
 
 
             }
