@@ -263,7 +263,7 @@ namespace ALMUpdate
             try
             {
                 lblReleaseError.Text = "";
-                btnCreateReleseCycle.Enabled = false;
+               
                 string intakeid = tbIntake.Text.Trim();
 
                 string releaseName = tbReleaseName.Text;
@@ -272,17 +272,34 @@ namespace ALMUpdate
                 DateTime endDate = dtpEndDate.Value;
                 string testFolder = tbReleaseFolder.Text.Trim();
 
-                
-
-                if (endDate.Date<startDate.Date)
+                if(string.IsNullOrEmpty(intakeid))
+                {
+                    lblReleaseError.Text = "Please provide Release Intake Id";
+                    return;
+                }
+                else if (string.IsNullOrEmpty(testFolder))
+                {
+                    lblReleaseError.Text = "Please provide Release folder path";
+                    return;
+                }
+                else if (testFolder.Contains('/'))
+                {
+                    lblReleaseError.Text = "Please provide the folder path with back slash";
+                    return;
+                }
+                else if (string.IsNullOrEmpty(releaseName) || string.IsNullOrEmpty(cycleName))
+                {
+                    lblReleaseError.Text = "Release/Cycle name cannot be empty";
+                    return;
+                }
+                else if (endDate.Date<startDate.Date)
                 {
                     lblReleaseError.Text = "End Date cannot be less than Start Date";
-                    btnCreateReleseCycle.Enabled = true;
                     return;
                 }
 
-              
-             
+
+                btnCreateReleseCycle.Enabled = false;
                 string message = CreateReleaseCycle(intakeid, releaseName, cycleName, startDate, endDate, testFolder, rbDOCSIS.Checked);
                 lblReleaseError.Text = message;
 
@@ -291,7 +308,9 @@ namespace ALMUpdate
                     xmlOpertations.AddToAutoCompleteSource("ReleaseNames", releaseName);
                     xmlOpertations.AddToAutoCompleteSource("CycleNames", cycleName);
                 }
-
+                if(xmlOpertations!=null&&!string.IsNullOrEmpty(testFolder))
+                     xmlOpertations.AddToAutoCompleteSource("ReleaseFolders", testFolder);
+                
 
             }
             catch(Exception ex)
@@ -304,10 +323,11 @@ namespace ALMUpdate
 
         private string  CreateReleaseCycle(string intakeid, string releaseName, string cycleName, DateTime startDate, DateTime endDate, string releaseFolder, bool docsis)
         {
+
             //Task task = new Task(otaObject.CreateReleaseCycle(intakeids, tbReleaseName.Text, tbCycleName.Text, startDate, endDate, releaseFolder));
-           string message = otaObject.CreateReleaseCycle(intakeid, tbReleaseName.Text, tbCycleName.Text, startDate, endDate, releaseFolder, docsis);
+            string message = otaObject.CreateReleaseCycle(intakeid, tbReleaseName.Text, tbCycleName.Text, startDate, endDate, releaseFolder, docsis);
 
-
+           // string message = "success";
             btnCreateReleseCycle.Enabled = true;
             return message;
            
@@ -428,6 +448,17 @@ namespace ALMUpdate
                 collection.AddRange(xmlOpertations.ReadAutoSource("CycleNames"));
 
                 tbCycleName.AutoCompleteCustomSource = collection;
+            }
+
+            {
+                tbReleaseFolder.AutoCompleteMode = AutoCompleteMode.Suggest;
+                tbReleaseFolder.AutoCompleteSource = AutoCompleteSource.CustomSource;
+
+                var collection = new AutoCompleteStringCollection();
+                collection.AddRange(xmlOpertations.ReadAutoSource("ReleaseFolders"));
+
+                tbReleaseFolder.AutoCompleteCustomSource = collection;
+
             }
         }
 

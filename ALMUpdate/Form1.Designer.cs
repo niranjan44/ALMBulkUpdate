@@ -75,6 +75,7 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.rbVoice = new System.Windows.Forms.RadioButton();
             this.rbDOCSIS = new System.Windows.Forms.RadioButton();
+            this.label16 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -285,18 +286,17 @@
             "Releases\\Active\\Advanced CPE\\DOCSIS\\Managed_Services\\2016_Certifications"});
             this.tbReleaseFolder.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.tbReleaseFolder.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
-            this.tbReleaseFolder.Location = new System.Drawing.Point(134, 355);
+            this.tbReleaseFolder.Location = new System.Drawing.Point(28, 364);
             this.tbReleaseFolder.Margin = new System.Windows.Forms.Padding(2);
-            this.tbReleaseFolder.Multiline = true;
             this.tbReleaseFolder.Name = "tbReleaseFolder";
-            this.tbReleaseFolder.Size = new System.Drawing.Size(428, 36);
+            this.tbReleaseFolder.Size = new System.Drawing.Size(519, 20);
             this.tbReleaseFolder.TabIndex = 23;
             this.tbReleaseFolder.Text = "Releases\\Active\\Advanced CPE\\DOCSIS\\Managed_Services\\2016_Certifications";
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(20, 363);
+            this.label8.Location = new System.Drawing.Point(28, 349);
             this.label8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(109, 13);
@@ -561,7 +561,7 @@
             // 
             this.groupBox2.Controls.Add(this.rbVoice);
             this.groupBox2.Controls.Add(this.rbDOCSIS);
-            this.groupBox2.Location = new System.Drawing.Point(258, 395);
+            this.groupBox2.Location = new System.Drawing.Point(363, 388);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(2);
@@ -594,12 +594,23 @@
             this.rbDOCSIS.Text = "DOCSIS";
             this.rbDOCSIS.UseVisualStyleBackColor = true;
             // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(244, 411);
+            this.label16.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(55, 13);
+            this.label16.TabIndex = 43;
+            this.label16.Text = "Ex: 12345";
+            // 
             // frmALMRun
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(583, 600);
+            this.Controls.Add(this.label16);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.label14);
@@ -641,7 +652,7 @@
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "frmALMRun";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "ALMRun_v1.9";
+            this.Text = "ALMRun_v2.0";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmALMRun_FormClosing);
             this.Load += new System.EventHandler(this.frmALMRun_Load);
             this.groupBox1.ResumeLayout(false);
@@ -702,6 +713,7 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.RadioButton rbVoice;
         private System.Windows.Forms.RadioButton rbDOCSIS;
+        private System.Windows.Forms.Label label16;
     }
 }
 
