@@ -116,86 +116,67 @@ namespace ALMUpdate
         }
 
 
-        public void RunSingleTestSet(string testSetPath, string status, string filter,BackgroundWorker worker, DoWorkEventArgs e)
+        public void RunSingleTestSet(string testSetPath, string status, string filter, BackgroundWorker worker, DoWorkEventArgs e)
         {
 
             try
             {
                 int testCaseUpdated = 0;
-                TestSet theTestSet=null;
-                // string testFolder = @"Root\Active\Advanced_CPE\DOCSIS\2015_Archive\RR20151223\PX013ANC_2.2p3s1";
-                // string testSetName = "IPv6";
-                TestSetTreeManager tsTreeMgr = (TestSetTreeManager)conn.TestSetTreeManager;
-                TestSetFolder tsFolder = null;
+                TestSet theTestSet = null;
+                // TSTestFactory tsTestFactory;
                 TDFilter tFilter;
-                string testFolder = string.Empty;
+                int testsetID;
 
-                testFolder = testSetPath.Substring(0, testSetPath.LastIndexOf("\\"));
-              
-                int testSetLength = testSetPath.Length - testSetPath.LastIndexOf("\\");
-                string testSetName = testSetPath.Substring(testSetPath.LastIndexOf("\\") + 1, testSetLength - 1);
+                if (int.TryParse(testSetPath, out testsetID))
+                {
+                    TestSetFactory testSetFactory = conn.TestSetFactory;
+                    theTestSet = testSetFactory[testsetID];
+                    // tsTestFactory = theTestSet.TSTestFactory;
+                }
+                else
+                {
+                    TestSetTreeManager tsTreeMgr = (TestSetTreeManager)conn.TestSetTreeManager;
+                    TestSetFolder tsFolder = null;
+                    string testFolder = string.Empty;
 
+                    testFolder = testSetPath.Substring(0, testSetPath.LastIndexOf("\\"));
 
-                tsFolder = (TestSetFolder)tsTreeMgr.get_NodeByPath(testFolder);
+                    int testSetLength = testSetPath.Length - testSetPath.LastIndexOf("\\");
+                    string testSetName = testSetPath.Substring(testSetPath.LastIndexOf("\\") + 1, testSetLength - 1);
+                    tsFolder = (TestSetFolder)tsTreeMgr.get_NodeByPath(testFolder);
+                    List tsList = tsFolder.FindTestSets(testSetName, true, "");
 
-                // List tsList =  (List)tsTreeMgr.NodeById[244605];
+                    if (tsList == null)
+                    {
+                        throw new Exception("TestSet not found");
+                    }
 
-                tsFolder = tsTreeMgr.NodeById[244605];
+                    foreach (TestSet testSet in tsList)
+                    {
+                        if (testSet.Name == testSetName)
+                        {
+                            theTestSet = testSet;
+                            break;
+                        }
+                    }
 
-                // Type t = x.GetType();
-
-                //  List tsList = tsFolder.FindTestSets("OSS", false, null);
-                //  List tsList1 = tsFolder.FindTestSets(testSetName, false, "status=No Run");
-                //  List ls2 = tsFolder.FindChildren(testSetName, false, null);
-
-                //will retrieve all testsets which has given testset name
-                List tsList = tsFolder.FindTestSets(testSetName, true, "");
-
-                int nodeid = tsFolder.NodeID;
-                int faterid = tsFolder.FatherID;
-
-               // List tsList = tsFolder.TestSetFactory
-
-              
-
-                //if (tsList == null)
-                //{
-                //    throw new Exception("TestSet not found");
-                //}
-
-                //foreach (TestSet testSet in tsList)
-                //{
-                //    if (testSet.Name == testSetName)
-                //    {
-                //        theTestSet = testSet;
-                //        break;
-                //    }
-                //}
+                }
 
 
 
-
-
-                //   string tempStr = theTestSet.ID.ToString();
-                // Debug.Print(tempStr);
-
-
-                //foreach (TestSet testSet in tsList)
-                //{
-                //    if (worker.CancellationPending)
-                //    {
-                //        e.Cancel = true;
-                //        return;
-                //    }
-
+                if (worker.CancellationPending)
+                {
+                    e.Cancel = true;
+                    return;
+                }
 
                 TSTestFactory tsTestFactory = (TSTestFactory)theTestSet.TSTestFactory;
-               // TSTestFactory tsTestFactory = tsFolder.TestSetFactory;
+
 
                 tFilter = tsTestFactory.Filter;
                 //tFilter["TS_USER_17"] = "\"01 Critical\"";
-                if(!string.IsNullOrEmpty(filter))
-                tFilter["TS_USER_17"] = "\"" + filter +"\"";
+                if (!string.IsNullOrEmpty(filter))
+                    tFilter["TS_USER_17"] = "\"" + filter + "\"";
 
                 List tsTestList = tFilter.NewList();
 
@@ -231,6 +212,8 @@ namespace ALMUpdate
             }
 
         }
+
+
 
 
 

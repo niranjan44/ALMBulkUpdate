@@ -136,7 +136,7 @@ namespace ALMUpdate
                 string status = cbUpdateStatus.Text;
                 string priority = cbPriority.Text;
 
-                if (string.IsNullOrEmpty(testfolder) ||string.IsNullOrEmpty(status) )
+                if (string.IsNullOrEmpty(testfolder) || string.IsNullOrEmpty(status))
                 {
                     lblRunStatus.Text = "Please provide test folder path and status";
                     return;
@@ -146,21 +146,30 @@ namespace ALMUpdate
                     lblRunStatus.Text = "Please provide the folder path with back slash";
                     return;
                 }
-                
 
-                string[] testHierarchy= testfolder.Split('\\');
-                if (testHierarchy.Count() <=5)
+                int testSetId;
+                if (!int.TryParse(testfolder, out testSetId))
                 {
-                    DialogResult result = MessageBox.Show(this,testfolder, "Are you sure the provided folder path is intended", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                   if(result == DialogResult.No||result== DialogResult.Cancel||
-                       result==DialogResult.Abort)
+                    string[] testHierarchy = testfolder.Split('\\');
+                    if (testHierarchy.Count() <= 5)
+                    {
+                        DialogResult result = MessageBox.Show(this, testfolder, "Are you sure the provided folder path is intended", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                        if (result == DialogResult.No || result == DialogResult.Cancel ||
+                            result == DialogResult.Abort)
+                            return;
+                    }
+                }
+
+                if (testSetId != 0 && !cbUpdateTestset.Checked)
+                {
+                    lblRunStatus.Text = "TestSet Id is valid only when Update TestSet is selected";
                     return;
                 }
 
                 lblRunStatus.Text = "Running.......";
                 btnRun.Text = "Cancel Run";
                 Application.DoEvents();
-                
+
 
                 StringDictionary dictinary = new StringDictionary();
                 dictinary.Add("testfolder", testfolder);
@@ -168,13 +177,13 @@ namespace ALMUpdate
                 dictinary.Add("priority", priority);
                 this.lblRunStatus.ForeColor = System.Drawing.Color.Green;
                 backgroundWorker1.RunWorkerAsync(dictinary);
-                
+
 
                 // Thread runThread = new Thread(new threadstartotaObject.RunTestSet(testfolder));
 
-                
+
                 //otaObject.RunTestSet(testfolder);
-                
+
             }
             catch (Exception ex)
             {

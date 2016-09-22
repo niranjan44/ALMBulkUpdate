@@ -306,7 +306,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(21, 404);
+            this.label9.Location = new System.Drawing.Point(28, 400);
             this.label9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(57, 13);
@@ -315,7 +315,7 @@
             // 
             // tbIntake
             // 
-            this.tbIntake.Location = new System.Drawing.Point(88, 404);
+            this.tbIntake.Location = new System.Drawing.Point(95, 400);
             this.tbIntake.Margin = new System.Windows.Forms.Padding(2);
             this.tbIntake.Name = "tbIntake";
             this.tbIntake.Size = new System.Drawing.Size(152, 20);
@@ -597,7 +597,7 @@
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(244, 411);
+            this.label16.Location = new System.Drawing.Point(251, 407);
             this.label16.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(55, 13);
