@@ -10,6 +10,7 @@ namespace ALMUpdate
     class XMLOperations
     {
         XDocument xDoc;
+        private const int AutoCompleteElementsCount = 20;
 
         public XMLOperations()
         {
@@ -19,7 +20,7 @@ namespace ALMUpdate
         {
             try
             {
-                string path = "Data.xml";
+                string path = "ALMRun.xml";
                 if (File.Exists(path))
                 {
                     xDoc = XDocument.Load(path);
@@ -69,7 +70,7 @@ namespace ALMUpdate
         {
             IEnumerable<XElement> elements = xDoc.Root.Descendants(node).Elements();
 
-            if(elements.Count()>10)
+            if(elements.Count()> AutoCompleteElementsCount)
             {
                 XElement lastElement = elements.FirstOrDefault();
                 lastElement.Remove();
