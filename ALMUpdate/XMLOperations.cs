@@ -11,6 +11,7 @@ namespace ALMUpdate
     {
         XDocument xDoc;
         private const int AutoCompleteElementsCount = 20;
+        string XMLFilePath = "ALMRun.xml";
 
         public XMLOperations()
         {
@@ -20,10 +21,10 @@ namespace ALMUpdate
         {
             try
             {
-                string path = "ALMRun.xml";
-                if (File.Exists(path))
+               // string path = "ALMRun.xml";
+                if (File.Exists(XMLFilePath))
                 {
-                    xDoc = XDocument.Load(path);
+                    xDoc = XDocument.Load(XMLFilePath);
                 }
                 else
                 {
@@ -47,7 +48,7 @@ namespace ALMUpdate
                     new XElement("ReleaseNames"),
                      new XElement("CycleNames")
                   ));
-            xDoc.Save("Data.xml");
+            xDoc.Save(XMLFilePath);
         }
 
         public void AddToAutoCompleteSource(string node, string value)
@@ -56,7 +57,7 @@ namespace ALMUpdate
             {
                 xDoc.Element("TextBoxAutoCompleteSource").Element(node).Add(
                     new XElement("Name", value));
-                xDoc.Save("Data.xml");
+                xDoc.Save(XMLFilePath);
                 LimitAutoSourceElement(node);
                
             }
@@ -74,7 +75,7 @@ namespace ALMUpdate
             {
                 XElement lastElement = elements.FirstOrDefault();
                 lastElement.Remove();
-               // xDoc.Save("Data.xml");
+               
 
             }
 
