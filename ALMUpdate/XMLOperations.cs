@@ -10,8 +10,8 @@ namespace ALMUpdate
     class XMLOperations
     {
         XDocument xDoc;
-        private const int AutoCompleteElementsCount = 20;
-        string XMLFilePath = "ALMRun.xml";
+        private const int AutoCompleteElementsCount = 50;
+        private const string XMLFilePath = "ALMRun.xml";
 
         public XMLOperations()
         {
@@ -21,7 +21,7 @@ namespace ALMUpdate
         {
             try
             {
-               // string path = "ALMRun.xml";
+                // string path = "ALMRun.xml";
                 if (File.Exists(XMLFilePath))
                 {
                     xDoc = XDocument.Load(XMLFilePath);
@@ -39,15 +39,15 @@ namespace ALMUpdate
 
         public void CreateAutoCompleteXMLSource()
         {
-             xDoc = new XDocument(
-               new XDeclaration("1.0", "utf-8", "yes"),
-                new XComment("Texboxes autocomplete XML source"),
-                new XElement("TextBoxAutoCompleteSource",
-                  new XElement("TestFolders"),
-                   new XElement("ReleaseFolders"),
-                    new XElement("ReleaseNames"),
-                     new XElement("CycleNames")
-                  ));
+            xDoc = new XDocument(
+              new XDeclaration("1.0", "utf-8", "yes"),
+               new XComment("Texboxes autocomplete XML source"),
+               new XElement("TextBoxAutoCompleteSource",
+                 new XElement("TestFolders"),
+                  new XElement("ReleaseFolders"),
+                   new XElement("ReleaseNames"),
+                    new XElement("CycleNames")
+                 ));
             xDoc.Save(XMLFilePath);
         }
 
@@ -55,27 +55,41 @@ namespace ALMUpdate
         {
             try
             {
-                xDoc.Element("TextBoxAutoCompleteSource").Element(node).Add(
-                    new XElement("Name", value));
-                xDoc.Save(XMLFilePath);
-                LimitAutoSourceElement(node);
-               
+                if (!IsElementPresent(node, value))
+                {
+                    xDoc.Element("TextBoxAutoCompleteSource").Element(node).Add(
+                        new XElement("Name", value));
+                    xDoc.Save(XMLFilePath);
+                    LimitAutoSourceElement(node);
+                }
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }
+        }
+
+        private bool IsElementPresent(string node, string value)
+        {
+            string[] elements = ReadAutoSource(node);
+
+            if (elements.Contains(value))
+                return true;
+            else
+                return false;
+
         }
 
         private void LimitAutoSourceElement(string node)
         {
             IEnumerable<XElement> elements = xDoc.Root.Descendants(node).Elements();
 
-            if(elements.Count()> AutoCompleteElementsCount)
+            if (elements.Count() > AutoCompleteElementsCount)
             {
                 XElement lastElement = elements.FirstOrDefault();
                 lastElement.Remove();
-               
+
 
             }
 
@@ -90,14 +104,14 @@ namespace ALMUpdate
 
                 int count = elements.Count();
 
-                foreach(XElement element in elements)
+                foreach (XElement element in elements)
                 {
                     values.Add(element.Value);
                 }
 
                 return values.ToArray<string>();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return null;
             }
