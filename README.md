@@ -1,9 +1,9 @@
 # ALMBulkUpdate
 
-Tool can be used for updating HP ALM test cases in bulk.
-The tool talks with the HP ALM OTA API and  performs the batch jobs
-You have to provide folder path and tool updates the test cases as selected(passed/failed/blocked).
-You can also update the test cases with testset id.
+The Tool can be used for updating HP ALM test cases in bulk.
+The tool talks with the HP ALM OTA API and  performs the batch jobs.
+You have to provide test case folder path and tool updates all the test cases in the folder as selected(passed/failed/blocked).
+You can also provide testset id to update the test cases.
 
 The tool is developed with C#, Winforms of .NET Framework.
 
